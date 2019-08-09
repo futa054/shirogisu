@@ -1,6 +1,6 @@
 from django.db import models
-from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import UserManager
+# from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import UserManager, AbstractUser
 
 class UserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -25,10 +25,10 @@ class UserManager(UserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self._create_user(email, password, **extra_fields)
-    
-class User(AbstractBaseUser):
-    username = models.CharField(_('username'), max_length=150, blank=True)
-    email = models.EmailField(_('email address'), unique=True)
+
+class User(AbstractUser):
+    username = models.CharField(max_length=150, blank=True)
+    email = models.EmailField(unique=True)
 
     objects = UserManager()
 
