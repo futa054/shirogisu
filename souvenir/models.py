@@ -1,5 +1,4 @@
 from django.db import models
-# from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager, AbstractUser
 
 class UserManager(UserManager):
@@ -26,11 +25,18 @@ class UserManager(UserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+class Country(models.Model):
+    country_name = models.CharField(max_length=150)
+
 class User(AbstractUser):
     username = models.CharField(max_length=150, blank=True)
     email = models.EmailField(unique=True)
+    country_id = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
 
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
+
+    
